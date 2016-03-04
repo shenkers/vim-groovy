@@ -18,3 +18,8 @@ or create an issue here on GitHub._
 Perhaps the GroovyShell class could be leveraged with its tab-completion built
 in. The Vim plugin could call out to an externally running Groovy process
 listening on a socket, and get back a list of tab-complete candidates.
+
+As an example of how this could work, this gist shows retrieving JSON
+from an API and loading the results into a tab-complete box:
+
+[junegunn/vimawesome.vim](https://gist.github.com/junegunn/5dff641d68d20ba309ce)
