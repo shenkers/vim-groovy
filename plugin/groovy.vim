@@ -23,11 +23,11 @@ ruby << EOF
 EOF
 
     if !empty(candidates)
-        inoremap <buffer> <c-v> <c-n>
+        inoremap <buffer> <tab> <c-n>
 
         augroup _GroovyComplete
             autocmd!
-            autocmd CursorMovedI,InsertLeave * iunmap <buffer> <c-v>
+            autocmd CursorMovedI,InsertLeave * iunmap <buffer> <tab>
                   \| autocmd! _GroovyComplete
         augroup END
 
@@ -41,5 +41,5 @@ endfunction
 
 augroup GroovyComplete
     autocmd!
-    autocmd FileType groovy inoremap <c-x><c-v> <c-r>=GroovyComplete()<cr>
+    autocmd FileType groovy inoremap <tab> <c-r>=GroovyComplete()<cr>
 augroup END
