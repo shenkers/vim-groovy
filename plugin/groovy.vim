@@ -1,34 +1,45 @@
-" groovy.vim
-
-function! Complete()
-    let prefix = matchstr(strpart(getline('.'), 0, col('.') - 1), '[.a-zA-Z0-9_/-]*$')
-    echo 'Completing "' . prefix . '"'
+function! GroovyComplete()
+    let line = getline('.')
 
 ruby << EOF
-puts 'Calling groovy for candidates'
+    require 'json'
+    require 'socket'
+
+    line = VIM::evaluate('line')
+
+    hostname = 'localhost'
+    port = 9999
+
+    s = TCPSocket.open(hostname, port)
+    s.puts line
+    response = s.gets
+    s.close
+
+    json = JSON.parse(response)
+    puts json
+
+    VIM::command("let candidates = #{json['candidates']}")
+    VIM::command("let logs = #{json['logs']}")
 EOF
 
-    echo 'Returned from searching candidates'
+    if !empty(candidates)
+        inoremap <buffer> <c-v> <c-n>
 
-    " if !empty(candidates)
-    " endif
+        augroup _GroovyComplete
+            autocmd!
+            autocmd CursorMovedI,InsertLeave * iunmap <buffer> <c-v>
+                  \| autocmd! _GroovyComplete
+        augroup END
 
+        let prefix = matchstr(strpart(getline('.'), 0, col('.') - 1), '[a-zA-Z0-9_/-]*$')
+
+        call complete(col('.') - strchars(prefix), candidates)
+    endif
+
+    return ''
 endfunction
 
-" inoremap <leader>p <ESC>:call Complete()<CR>
-" nnoremap <leader>p <ESC>:call Complete()<CR>
-"
-" require 'json'
-" require 'open-uri'
-
-" term = VIM::evaluate('prefix')
-" candidates = Thread.new do
-"     puts "acquiring candidates"
-"     url = "http://localhost:9999"
-"     data = open(url).read
-"     json = JSON.parse(data, symbolize_names: true)
-
-"     puts json
-" end
-
-" VIM::command("let candidates = #{JSON.dump candidates}")
+augroup GroovyComplete
+    autocmd!
+    autocmd FileType groovy inoremap <c-x><c-v> <c-r>=GroovyComplete()<cr>
+augroup END
