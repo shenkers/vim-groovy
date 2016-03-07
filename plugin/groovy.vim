@@ -42,4 +42,29 @@ endfunction
 augroup GroovyComplete
     autocmd!
     autocmd FileType groovy inoremap <tab> <c-r>=GroovyComplete()<cr>
+    autocmd FileType groovy call StartGroovyCompleterService()
 augroup END
+
+" Get the vim-groovy/plugin directory
+let s:plugin_dir = expand('<sfile>:p:h')
+let s:service_path = 'GroovyCompleterService.groovy'
+let s:tmux_session_name = 'groovy_completer'
+
+function! StartGroovyCompleterService()
+    let s:start_cmd = 'tmux new -s "' . s:tmux_session_name . '" -c "' . s:plugin_dir . '" -d "groovy ' . s:service_path .'"'
+    echo s:start_cmd
+    call system(s:start_cmd)
+endfunction
+
+function! IsGroovyCompleterServiceRunning()
+    let s:cmd = 'tmux ls | grep ' . s:tmux_session_name
+    let sessions = system(s:cmd)
+    let running = sessions =~# s:tmux_session_name
+    echo 'Running: ' . running
+    return running
+endfunction
+
+function! StopGroovyCompleterService()
+    let s:cmd = 'tmux kill-session -t ' . s:tmux_session_name
+    call system(s:cmd)
+endfunction
