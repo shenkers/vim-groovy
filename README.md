@@ -23,3 +23,8 @@ As an example of how this could work, this gist shows retrieving JSON
 from an API and loading the results into a tab-complete box:
 
 [junegunn/vimawesome.vim](https://gist.github.com/junegunn/5dff641d68d20ba309ce)
+
+## Acknowledgements
+
+The [indent/groovy.vim](indent/groovy.vim) code was largely taken from vim.org script #5257
+and [vim-scripts/groovyindent-unix](https://github.com/vim-scripts/groovyindent-unix).
