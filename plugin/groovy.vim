@@ -41,8 +41,9 @@ endfunction
 
 augroup GroovyComplete
     autocmd!
-    autocmd FileType groovy inoremap <tab> <c-r>=GroovyComplete()<cr>
-    autocmd FileType groovy call StartGroovyCompleterService()
+    " TODO: Completion is disabled until it is more stable
+    " autocmd FileType groovy inoremap <tab> <c-r>=GroovyComplete()<cr>
+    " autocmd FileType groovy call StartGroovyCompleterService()
 augroup END
 
 " Get the vim-groovy/plugin directory
