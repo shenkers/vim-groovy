@@ -131,7 +131,7 @@ function GetGroovyIndent()
     endif
 
     " If last line end with (
-    if getline(lnum) =~ '[\(]\s*$'
+    if getline(lnum) =~ '[\(:]\s*$'
       let theIndent = indent(lnum) + &sw
     endif
   endif
