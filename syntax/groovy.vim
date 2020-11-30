@@ -61,10 +61,43 @@ endif
 
 " taken from official docs:
 syn keyword groovyKeyword
-            \ as assert break case catch class const
-            \ continue def default do else enum extends false finally for goto
-            \ if implements import in instanceof interface new null package
-            \ return super switch this throw throws trait true try while
+            \ as
+            \ assert
+            \ break
+            \ case
+            \ catch
+            \ class
+            \ const
+            \ continue
+            \ def
+            \ default
+            \ do
+            \ else
+            \ enum
+            \ extends
+            \ false
+            \ finally
+            \ for
+            \ goto
+            \ if
+            \ implements
+            \ import
+            \ in
+            \ instanceof
+            \ interface
+            \ new
+            \ null
+            \ package
+            \ return
+            \ super
+            \ switch
+            \ this
+            \ throw
+            \ throws
+            \ trait
+            \ true
+            \ try
+            \ while
 
 syn keyword groovyExternal        native
 syn match groovyExternal          '^package '
@@ -76,9 +109,9 @@ syn keyword groovyBoolean         true false
 syn keyword groovyConstant        null
 syn keyword groovyTypedef         this super
 syn keyword groovyOperator        new instanceof
-syn keyword groovyType            boolean char byte short int long float double
 syn keyword groovyType            void
-syn keyword groovyType		        Integer Double Date Boolean Float String Array Vector List
+syn keyword groovyPrimitiveType   boolean char byte short int long float double
+syn keyword groovyObjectType		  Integer Double Date Boolean Float String Array Vector List
 syn keyword groovyStatement       return
 syn keyword groovyStorageClass    static synchronized transient volatile final strictfp serializable
 syn keyword groovyExceptions      throw try catch finally
@@ -184,7 +217,7 @@ syn match   groovyUserLabel '^\s*[_$a-zA-Z][_$a-zA-Z0-9_]*\s*:'he=e-1 contains=g
 syn keyword groovyLabel default
 
 " The following cluster contains all groovy groups except the contained ones
-syn cluster groovyTop add=groovyExternal,groovyError,groovyError,groovyBranch,groovyLabelRegion,groovyLabel,groovyConditional,groovyRepeat,groovyBoolean,groovyConstant,groovyTypedef,groovyOperator,groovyType,groovyType,groovyStatement,groovyStorageClass,groovyAssert,groovyExceptions,groovyMethodDecl,groovyClassDecl,groovyClassDecl,groovyClassDecl,groovyScopeDecl,groovyError,groovyError2,groovyUserLabel,groovyLangObject
+syn cluster groovyTop add=groovyExternal,groovyError,groovyError,groovyBranch,groovyLabelRegion,groovyLabel,groovyConditional,groovyRepeat,groovyBoolean,groovyConstant,groovyTypedef,groovyOperator,groovyType,groovyPrimitiveType,groovyObjectType,groovyStatement,groovyStorageClass,groovyAssert,groovyExceptions,groovyMethodDecl,groovyClassDecl,groovyClassDecl,groovyClassDecl,groovyScopeDecl,groovyError,groovyError2,groovyUserLabel,groovyLangObject
 
 " Comments
 syn keyword groovyTodo contained TODO FIXME
@@ -285,7 +318,7 @@ syn cluster groovyTop add=groovyString,groovyCharacter,groovyNumber,groovySpecia
 
 if exists('groovy_highlight_functions')
   if groovy_highlight_functions == 'indent'
-    syn match  groovyFuncDef "^\(\t\| \{8\}\)[_$a-zA-Z][_$a-zA-Z0-9_. \[\]]*([^-+*/()]*)"                  contains=groovyScopeDecl,groovyType,groovyStorageClass,@groovyClasses
+    syn match  groovyFuncDef "^\(\t\| \{8\}\)[_$a-zA-Z][_$a-zA-Z0-9_. \[\]]*([^-+*/()]*)"                  contains=groovyScopeDecl,groovyType,groovyPrimitiveType,groovyObjectType,groovyStorageClass,@groovyClasses
     syn region groovyFuncDef start=+^\(\t\| \{8\}\)[$_a-zA-Z][$_a-zA-Z0-9_. \[\]]*([^-+*/()]*,\s*+ end=+)+ contains=groovyScopeDecl,groovyType,groovyStorageClass,@groovyClasses
     syn match  groovyFuncDef "^  [$_a-zA-Z][$_a-zA-Z0-9_. \[\]]*([^-+*/()]*)"                              contains=groovyScopeDecl,groovyType,groovyStorageClass,@groovyClasses
     syn region groovyFuncDef start=+^  [$_a-zA-Z][$_a-zA-Z0-9_. \[\]]*([^-+*/()]*,\s*+ end=+)+             contains=groovyScopeDecl,groovyType,groovyStorageClass,@groovyClasses
@@ -294,7 +327,7 @@ if exists('groovy_highlight_functions')
     " two things:
     "   1. class names are always capitalized (ie: Button)
     "   2. method names are never capitalized (except constructors, of course)
-    syn region groovyFuncDef start=+^\s\+\(\(public\|protected\|private\|static\|abstract\|final\|native\|synchronized\)\s\+\)*\(\(void\|boolean\|char\|byte\|short\|int\|long\|float\|double\|\([A-Za-z_][A-Za-z0-9_$]*\.\)*[A-Z][A-Za-z0-9_$]*\)\(<[^>]*>\)\=\(\[\]\)*\s\+[a-z][A-Za-z0-9_$]*\|[A-Z][A-Za-z0-9_$]*\)\s*([^0-9]+ end=+)+ contains=groovyScopeDecl,groovyType,groovyStorageClass,groovyComment,groovyLineComment,@groovyClasses
+    syn region groovyFuncDef start=+^\s\+\(\(public\|protected\|private\|static\|abstract\|final\|native\|synchronized\)\s\+\)*\(\(void\|boolean\|char\|byte\|short\|int\|long\|float\|double\|\([A-Za-z_][A-Za-z0-9_$]*\.\)*[A-Z][A-Za-z0-9_$]*\)\(<[^>]*>\)\=\(\[\]\)*\s\+[a-z][A-Za-z0-9_$]*\|[A-Z][A-Za-z0-9_$]*\)\s*([^0-9]+ end=+)+ contains=groovyScopeDecl,groovyType,groovyPrimitiveType,groovyObjectType,groovyStorageClass,groovyComment,groovyLineComment,@groovyClasses
   endif
   syn match groovyBraces '[{}]'
   syn cluster groovyTop add=groovyFuncDef,groovyBraces
@@ -437,6 +470,8 @@ if version >= 508 || !exists('did_groovy_syn_inits')
   GroovyHiLink groovyCommentStar      groovyComment
 
   GroovyHiLink groovyType             Type
+  GroovyHiLink groovyPrimitiveType    Type
+  GroovyHiLink groovyObjectType       Normal
   GroovyHiLink groovyExternal         Include
 
   GroovyHiLink htmlComment            Special
@@ -445,6 +480,7 @@ if version >= 508 || !exists('did_groovy_syn_inits')
   GroovyHiLink groovyJDKBuiltin       Special
   GroovyHiLink groovyJDKOperOverl     Operator
   GroovyHiLink groovyJDKMethods       Function
+  GroovyHiLink groovyKeyword          Keyword
 endif
 
 delcommand GroovyHiLink
