@@ -180,6 +180,7 @@ endif
 
 " Groovy stuff
 syn match groovyOperator '\.\.'
+syn match groovyOperator '\.\.\.'
 syn match groovyOperator ' <\{2,3} '
 syn match groovyOperator ' >\{2,3} '
 syn match groovyOperator '->'
