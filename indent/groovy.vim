@@ -126,7 +126,7 @@ function GetGroovyIndent()
   " Fixed several indent problems
   if theIndent > indent(lnum)
     " If no '{ -> ( if else' , then same indent as previous line
-    if getline(lnum) !~ '[\{>\(]\s*$' && getline(lnum) !~ '\s*\(if\|else\)\s*'
+    if getline(lnum) !~ '[\{>\(]\s*$' && getline(lnum) !~ '\v^\s*(if|else)\>'
       let theIndent = indent(lnum)
     endif
 
